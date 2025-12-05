@@ -21,24 +21,24 @@ This project implements a **"Defense in Depth"** strategy with 3 distinct securi
 
 ```mermaid
 graph TD
-    User[User Input] --> API[API Layer (.NET 9)]
-    API --> Cache{Schema Cache?}
-    Cache -- Miss --> DB_Meta[Extract Schema from SQLite]
-    Cache -- Hit --> Memory[IMemoryCache]
+    User[User Input] --> API["API Layer (.NET 9)"]
+    API --> Cache{"Schema Cache?"}
+    Cache -- Miss --> DB_Meta["Extract Schema from SQLite"]
+    Cache -- Hit --> Memory["IMemoryCache"]
     
-    API --> Guard1[🛡️ L1: Keyword Filter]
-    Guard1 -- Blocked --> Error1[400 Bad Request]
+    API --> Guard1["🛡️ L1: Keyword Filter"]
+    Guard1 -- Blocked --> Error1["400 Bad Request"]
     
-    Guard1 -- Safe --> AI[🧠 Semantic Kernel + Ollama]
-    AI --> Guard2[🛡️ L2: Intent Analysis]
-    Guard2 -- "VIOLATION_REQUEST" --> Error2[Security Alert]
+    Guard1 -- Safe --> AI["🧠 Semantic Kernel + Ollama"]
+    AI --> Guard2["🛡️ L2: Intent Analysis"]
+    Guard2 -- "VIOLATION_REQUEST" --> Error2["Security Alert"]
     
-    Guard2 -- SQL Query --> Guard3[🛡️ L3: C# AST Parser]
-    Guard3 -- Contains DROP/DELETE --> Error3[Critical Block]
+    Guard2 -- SQL Query --> Guard3["🛡️ L3: C# AST Parser"]
+    Guard3 -- Contains DROP/DELETE --> Error3["Critical Block"]
     
-    Guard3 -- Safe SELECT --> Executor[⚡ Dapper (ReadOnly Context)]
-    Executor --> SQLite[(SQLite Database)]
-    SQLite --> Result[JSON Response]
+    Guard3 -- Safe SELECT --> Executor["⚡ Dapper (ReadOnly Context)"]
+    Executor --> SQLite[("SQLite Database")]
+    SQLite --> Result["JSON Response"]
 ```
 
 ## 🌟 Key Features (Why this stands out)
